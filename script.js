@@ -19,7 +19,7 @@ var idTracker;
 var fetchedData;
 var places = []
 let entries;
-fetch(`https://admin-panel-ytap.onrender.com/GetData`,{
+fetch(`https://admin-api-eb59.onrender.com/GetData`,{
     method:"GET",
     credentials: 'include',
 }).then((res)=>{
@@ -247,7 +247,7 @@ function deleteEntry(id) {
         req[0] = req[0].replace(/[A-Za-z]/g,'')
         req[7] = req[7].join(',')
         console.log(req)
-        fetch(`https://admin-panel-ytap.onrender.com/deleteData`,{
+        fetch(`https://admin-api-eb59.onrender.com/deleteData`,{
             method:'POST',
             headers:{"Content-Type":'application/json'},
             body:JSON.stringify({data:req}),
@@ -267,7 +267,7 @@ function updateStatus(id, newStatus) {
             req[0] = req[0].replace(/[A-Za-z]/g,'')
             req[7] = req[7].join(',')
             console.log(req)
-            fetch(`https://admin-panel-ytap.onrender.com/deleteData`,{
+            fetch(`https://admin-api-eb59.onrender.com/deleteData`,{
                 method:'POST',
                 headers:{"Content-Type":'application/json'},
                 body:JSON.stringify({data:req}),
@@ -281,7 +281,7 @@ function updateStatus(id, newStatus) {
             req.pop()
             entry.status = newStatus;
             console.log(req)
-            fetch(`https://admin-panel-ytap.onrender.com/appendData`,{
+            fetch(`https://admin-api-eb59.onrender.com/appendData`,{
                 method:'POST',
                 headers:{"Content-Type":'application/json'},
                 body:JSON.stringify({data:req}),
@@ -296,7 +296,7 @@ function updateStatus(id, newStatus) {
             req[0] = req[0].replace(/[A-Za-z]/g,'')
             req[7] = req[7].join(',')
             console.log(req)
-            fetch(`https://admin-panel-ytap.onrender.com/updateData`,{
+            fetch(`https://admin-api-eb59.onrender.com/updateData`,{
                 method:'POST',
                 headers:{"Content-Type":'application/json'},
                 body:JSON.stringify({data:req}),
@@ -388,7 +388,7 @@ async function saveSubmission() {
     req[0] = req[0].replace(/[A-Za-z]/g,'') 
     req[7] = req[7].join(',')
     console.log(req)
-    fetch(`https://admin-panel-ytap.onrender.com/updateData`,{
+    fetch(`https://admin-api-eb59.onrender.com/updateData`,{
         method:'POST',
         headers:{"Content-Type":'application/json'},
         body:JSON.stringify({data:req}),
@@ -433,7 +433,7 @@ function removeImage(index) {
 
 
 setInterval(()=>{
-    fetch(`https://admin-panel-ytap.onrender.com/GetData`,{
+    fetch(`https://admin-api-eb59.onrender.com/GetData`,{
         method:"GET",
         credentials: 'include',
     }).then((res)=>{
