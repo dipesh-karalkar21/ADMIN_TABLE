@@ -26,7 +26,7 @@ fetch(`https://admin-api-eb59.onrender.com/GetData`,{
     return res.json()
 }).then((data)=>{
     if(data.status === 'ERROR' && data.message.includes('token')){
-//        window.location.href = 'https://dipesh-karalkar21.github.io/ADMIN_TABLE/signIn.html'
+        window.location.href = 'https://dipesh-karalkar21.github.io/ADMIN_TABLE/signIn.html'
     }
     console.log(data)
     fetchedData = data
@@ -36,7 +36,7 @@ fetch(`https://admin-api-eb59.onrender.com/GetData`,{
     entries = generateEntries();
     init()
 }).catch((err)=>{
-//    window.location.href = 'https://dipesh-karalkar21.github.io/ADMIN_TABLE/signIn.html'
+    window.location.href = 'https://dipesh-karalkar21.github.io/ADMIN_TABLE/signIn.html'
 })
 
 
