@@ -28,7 +28,6 @@ fetch(`https://admin-api-eb59.onrender.com/GetData`,{
     if(data.status === 'ERROR' && data.message.includes('token')){
         window.location.href = 'https://dipesh-karalkar21.github.io/ADMIN_TABLE/signIn.html'
     }
-    console.log(data)
     fetchedData = data
     idTracker = parseInt(fetchedData.verifiedData[fetchedData.verifiedData.length-1][0])
     places = [...data.userResp,...data.verifiedData]
@@ -181,7 +180,6 @@ function renderTable() {
         const catClass = getCategoryClass(entry.category);
 
         var id = entry.images[0].split("id")[1].replace("=","")
-        console.log(id)
         tr.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="h-10 w-10 rounded overflow-hidden bg-slate-200">
