@@ -1,3 +1,3 @@
 const getData =()=>{
-    window.location.href = "https://admin-panel-ytap.onrender.com/login"
+    window.location.href = "https://admin-api-eb59.onrender.com/login"
 }
