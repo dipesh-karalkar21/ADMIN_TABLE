@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission City Chakra | Admin Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#00a992',
+                            blue: '#005a9c',
+                            green: '#82cd1b',
+                            navy: '#00171f',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.3s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased h-screen flex flex-col overflow-hidden">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 shrink-0 z-20">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-brand-teal rounded flex items-center justify-center text-white font-bold text-xs">MC</div>
+            <div>
+                <h1 class="text-brand-teal font-bold text-sm tracking-wide leading-none">MISSION CITY</h1>
+                <span class="text-brand-blue font-semibold text-xs tracking-wider">CHAKRA</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-300">
+                <img src="/wp-content/uploads/mccmapadmintable/mccmap.svg" alt="Admin" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-hidden flex flex-col p-6 relative">
+        
+        <!-- Filters Toolbar -->
+        <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex flex-col lg:flex-row gap-4 justify-between items-center mb-4 shrink-0">
+            
+            <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                <!-- Search -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" placeholder="Search entries..." 
+                        class="custom-input w-full pl-9 pr-3 py-2 rounded text-sm text-slate-700">
+                </div>
+
+                <!-- Category Dropdown -->
+                <select id="categoryFilter" class="custom-input w-full sm:w-48 py-2 px-3 rounded text-sm text-slate-700">
+                </select>
+            </div>
+
+            <div class="flex items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
+                <!-- Status Checkboxes -->
+                <div class="flex gap-4 text-sm font-medium">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="accent-orange-400 w-4 h-4 status-filter" value="Pending">
+                        <span class="text-orange-500">Pending</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="accent-brand-teal w-4 h-4 status-filter" value="Verified">
+                        <span class="text-brand-teal">Verified</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="accent-rose-500 w-4 h-4 status-filter" value="Rejected">
+                        <span class="text-rose-500">Rejected</span>
+                    </label>
+                </div>
+
+                <button class="bg-brand-green hover:bg-green-600 text-white px-4 py-2 soft-rounded text-sm font-medium transition shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-file-export"></i> Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-100 flex-1 overflow-auto">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-50 sticky top-0 z-10 text-xs uppercase text-slate-500 font-semibold tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4 border-b border-slate-100">Img</th>
+                        <th class="px-6 py-4 border-b border-slate-100">Business Name</th>
+                        <th class="px-6 py-4 border-b border-slate-100">Category</th>
+                        <th class="px-6 py-4 border-b border-slate-100">Address</th>
+                        <th class="px-6 py-4 border-b border-slate-100">Coordinates</th>
+                        <th class="px-6 py-4 border-b border-slate-100 text-center">Status</th>
+                        <th class="px-6 py-4 border-b border-slate-100 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="entriesTableBody" class="text-sm divide-y divide-slate-100">
+                    <!-- Javascript will populate this -->
+                </tbody>
+            </table>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden flex-col items-center justify-center h-64 text-slate-400">
+                <i class="fa-solid fa-inbox text-4xl mb-3"></i>
+                <p>No entries found matching filters.</p>
+            </div>
+        </div>
+
+        <!-- Pagination Footer -->
+        <div class="py-4 flex justify-between items-center text-xs text-slate-500 shrink-0 pagination-footer">
+            <span id="showingCount">Showing 0 entries</span>
+            <div class="flex gap-2">
+                <button class="px-3 py-1 border border-slate-200 rounded bg-white hover:bg-slate-50" disabled>Previous</button>
+                <button class="px-3 py-1 border border-slate-200 rounded bg-white hover:bg-slate-50" disabled>Next</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FAB -->
+    <a href="https://forms.gle/pc3DhR8hzYYSaPtv8" target="_blank" 
+       class="fixed bottom-8 right-8 w-14 h-14 bg-brand-green hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition transform hover:scale-105 z-40"
+       title="Add New Submission">
+        <i class="fa-solid fa-plus"></i>
+    </a>
+
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm hidden items-center justify-center z-50 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-4xl h-[90vh] rounded-xl shadow-2xl flex flex-col overflow-hidden animate-fade-in-up m-4">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-teal text-white flex items-center justify-center">
+                        <i class="fa-solid fa-pen"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-800">Edit Submission Details</h2>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-xl">&times;</button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="flex-1 overflow-y-auto p-8 bg-white">
+                <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Basic Info -->
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Business / Event Name</label>
+                        <input type="text" id="m_name" class="custom-input w-full p-2.5 rounded text-sm">
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Category</label>
+                        <select id="m_category" class="custom-input w-full p-2.5 rounded text-sm" onchange="toggleEventFields()">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Mission / Description</label>
+                        <textarea id="m_description" rows="3" class="custom-input w-full p-2.5 rounded text-sm"></textarea>
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Sustainable Practices</label>
+                        <textarea id="m_practices" rows="3" class="custom-input w-full p-2.5 rounded text-sm"></textarea>
+                    </div>
+
+                    <!-- Dynamic Event Fields -->
+                    <div id="eventFieldsContainer" class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-4 rounded border border-slate-100 hidden">
+                        <div class="col-span-1 md:col-span-2 text-brand-blue font-bold text-xs uppercase border-b pb-2 mb-0">Event Details</div>
+                        <div class="col-span-1">
+                            <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Event Category</label>
+                            <select id="m_eventCat" class="custom-input w-full p-2.5 rounded text-sm" >
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500">Start Date</label>
+                            <input type="date" id="m_startDate" class="custom-input w-full p-2 rounded text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500">Start Time</label>
+                            <input type="time" id="m_startTime" class="custom-input w-full p-2 rounded text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500">End Date</label>
+                            <input type="date" id="m_endDate" class="custom-input w-full p-2 rounded text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-500">End Time</label>
+                            <input type="time" id="m_endTime" class="custom-input w-full p-2 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Address</label>
+                        <input type="text" id="m_address" class="custom-input w-full p-2.5 rounded text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 col-span-1">
+                        <div>
+                            <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Latitude</label>
+                            <input type="text" id="m_lat" class="custom-input w-full p-2.5 rounded text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Longitude</label>
+                            <input type="text" id="m_lng" class="custom-input w-full p-2.5 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Contact Number</label>
+                        <input type="text" id="m_contact" class="custom-input w-full p-2.5 rounded text-sm">
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-1">Social Media or Website URL</label>
+                        <input type="url" id="m_website" class="custom-input w-full p-2.5 rounded text-sm">
+                    </div>
+
+                    <!-- Image Management -->
+                    <div class="col-span-1 md:col-span-2 border-t border-slate-100 pt-4">
+                        <label class="block text-xs font-bold text-brand-teal uppercase tracking-wide mb-2">Images</label>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="imgUrlInput" placeholder="Paste Image URL here..." class="custom-input flex-1 p-2.5 rounded text-sm">
+                            <button type="button" onclick="addImageFromInput()" class="bg-brand-teal text-white px-4 py-2 rounded font-medium hover:bg-teal-600">Add</button>
+                        </div>
+                        <div id="imageGallery" class="flex flex-wrap gap-4">
+                            <!-- JS renders images here -->
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-8 py-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-800">Cancel</button>
+                <button onclick="saveSubmission()" class="px-5 py-2.5 text-sm font-bold text-white bg-brand-green rounded hover:bg-green-600 shadow-md transform active:scale-95 transition">Update Submission</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom JS -->
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; 
+}
+
+/* Specific Input Styling Override */
+.custom-input {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1; /* slate-300 */
+    transition: all 0.2s;
+}
+.custom-input:focus {
+    outline: none;
+    border-color: #00a992;
+    box-shadow: 0 0 0 2px rgba(0, 169, 146, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Soft modern style for search input and category dropdowns */
+#searchInput.custom-input,
+#categoryFilter.custom-input,
+#m_category.custom-input,
+select.custom-input {
+    border-radius: 12px; /* larger, soft corners */
+    box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+    border-color: rgba(148,163,184,0.65);
+}
+
+/* Ensure footer has safe space from FAB */
+.pagination-footer {
+    padding-right: 110px; /* wide enough so floating + button won't overlap */
+}
+
+/* Soft rounded style for buttons matching search/select radius */
+.soft-rounded {
+    border-radius: 12px !important;
+}
